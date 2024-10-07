@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 from openai import OpenAI
 from flask_cors import CORS
@@ -15,7 +16,7 @@ __INPUT__
 
 # ChatGPTに質問する関数
 def ask_chatgpt(prompt, model = "gpt-3.5-turbo"):
-  client = OpenAI()
+  client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
   completion = client.chat.completions.create(
     model=model,
     messages=[{"role": "user", "content": prompt}]
@@ -36,5 +37,17 @@ def translate():
   print(result)
   return jsonify(translatedText=result)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
+# 1.gunicornをrequirements.txtに追加
+# 2.pip install -r requirements.txtでgunicornインストール
+# 3.ターミナルでgunicorn app:app
+# ※ app:appの最初のappはファイル名（app.pyのapp）、2番目のappはFlaskアプリケーションのインスタンス名（app = Flask(__name__)）です。
+# 4.Profileにweb: gunicorn app:app　と記載
+# 5.別ターミナルで下記３つ行う
+# git add .
+# git commit -m "Add gunicorn for production"
+# git push heroku master
+
+# 本番環境では app.run() を呼び出さない
+# if __name__ == '__main__':
+#     app.run(debug=True)
