@@ -37,7 +37,7 @@ def translate():
   print(result)
   return jsonify(translatedText=result)
 
-# githubとherokuを連携
+# githubとherokuを連携2
 # 1.gunicornをrequirements.txtに追加
 # 2.pip install -r requirements.txtでgunicornインストール
 # 3.ターミナルでgunicorn app:app
